@@ -1,9 +1,11 @@
-#include <cstdio>
+#define GLEW_STATIC
+#include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_video.h>
-#include <SOIL/SOIL.h>
+
+#include <cstdio>
 
 #include "renderer.hpp"
 #include "obj.hpp"
@@ -22,8 +24,8 @@ int main ()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
     
-    const int width = 1024;
-    const int height = 1024;
+    const int width = 512;
+    const int height = 512;
     
     // Creating SDL window
     SDL_Window* window = SDL_CreateWindow("OpenGl-SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_OPENGL);

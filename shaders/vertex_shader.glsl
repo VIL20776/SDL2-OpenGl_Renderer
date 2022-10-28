@@ -9,9 +9,13 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
 out vec2 uvs;
+out vec3 norms;
+out vec3 pos;
 
 void main()
 {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
     uvs = texcoords;
+    norms = normals;
+    pos = (modelMatrix * vec4(position, 1.0)).xyz;
 }

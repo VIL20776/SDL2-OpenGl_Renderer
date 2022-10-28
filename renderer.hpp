@@ -28,10 +28,16 @@ class Renderer
     private:
     GLint width, height;
     GLuint activeShader;
+    
     std::vector<Model> scene;
+
     glm::vec3 camPosition;
     glm::vec3 camRotation;
     glm::mat4 viewMatrix;
+
+    glm::vec3 pointLight;
+
+
     glm::mat4 projectionMatrix;
     
     void makeViewMatrix ();

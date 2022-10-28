@@ -159,6 +159,8 @@ void Renderer::render()
 	glUniformMatrix4fv(glGetUniformLocation(activeShader, "projectionMatrix"), 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 	
 	glUniform1i(glGetUniformLocation(activeShader, "tex"), 0);
+
+	glUniform3fv(glGetUniformLocation(activeShader, "pointLight"), 1, glm::value_ptr(pointLight));
 	
 	for (auto &obj : scene)
 		obj.render(activeShader);
