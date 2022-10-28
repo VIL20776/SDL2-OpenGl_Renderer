@@ -1,12 +1,16 @@
 #include "model.hpp"
 
 #include <SOIL/SOIL.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+#include <cstdio>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/fwd.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/matrix.hpp>
+#include <string>
 
 Model::Model (std::vector<GLfloat> data)
 {
@@ -37,7 +41,7 @@ Model::Model (std::vector<float> data, glm::vec3 position, glm::vec3 rotation, g
     makeModelMatrix();
 }
     
-Model::Model(Obj object, const char* texture_path, ModelProps props)
+Model::Model(Obj object, std::string texture_path, ModelProps props)
 {
     createVertexBuffer(object);
     
@@ -45,7 +49,12 @@ Model::Model(Obj object, const char* texture_path, ModelProps props)
     rotation = props.rotation;
     scale = props.scale;
     
-    textureData = SOIL_load_image(texture_path, &t_width, &t_height, 0, SOIL_LOAD_RGB);
+    textureData = SOIL_load_image(texture_path.c_str(), &t_width, &t_height, 0, SOIL_LOAD_AUTO);
+    // textureData = stbi_load(texture_path.c_str(), &t_width, &t_height, &channels, 3);
+    if (textureData == nullptr)
+    {
+    	std::printf("Image failed to load SOIL Error: %s\n", SOIL_last_result());
+    }
     glGenTextures(1, &texture);
     
     makeModelMatrix();

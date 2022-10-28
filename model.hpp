@@ -24,7 +24,7 @@ class Model
     
     Model (std::vector<GLfloat> data, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
     
-    Model (Obj object, const char* texture = nullptr, ModelProps props = {});
+    Model (Obj object, string, ModelProps props = {});
     
     void render (const GLuint &shaderID); 
     
@@ -33,7 +33,7 @@ class Model
     GLuint vbo; //vertex buffer
     std::vector<GLfloat> data;
     
-    int t_width, t_height;
+    int t_width, t_height,channels;
     unsigned char* textureData;
     GLuint texture;
     

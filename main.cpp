@@ -45,7 +45,7 @@ int main ()
     
     rend.addModel( 
         Model( Obj ("data/obj/fox.obj"),
-        "data/obj/bmp_texture.bmp",
+        "data/obj/texture.png",
         {
             {0 ,0, -10},        //Position
             {0, 45, 0},          //Rotation
