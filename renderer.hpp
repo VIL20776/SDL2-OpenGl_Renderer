@@ -21,7 +21,11 @@ class Renderer
     
     int loadShaders (const char *vertex_shader_path, const char *fragment_shader_path);
     
-    void addModel (Model obj);
+    void addModel (Model obj, bool focus = false);
+
+    void setCamPosition (float x, float y, float z);
+
+    std::vector<float> getCamPosition ();
     
     void render ();
     
@@ -37,6 +41,9 @@ class Renderer
 
     glm::vec3 pointLight;
 
+    glm::vec3 target;
+    glm::vec3 angle;
+    float camDistance;
 
     glm::mat4 projectionMatrix;
     

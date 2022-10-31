@@ -1,8 +1,8 @@
 #include "model.hpp"
 
 #include <SOIL/SOIL.h>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
+// #define STB_IMAGE_IMPLEMENTATION
+// #include <stb/stb_image.h>
 #include <cstdio>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -10,37 +10,7 @@
 #include <glm/fwd.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/matrix.hpp>
-#include <string>
-
-Model::Model (std::vector<GLfloat> data)
-{
-    this->data = data;
-        
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-    
-    position = {0, 0, 0};
-    rotation = {0, 0, 0};
-    scale = {1, 1, 1};
-    
-    
-    makeModelMatrix();
-}
-    
-Model::Model (std::vector<float> data, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
-{
-	this->data = data;
-        
-    glGenVertexArrays(1, &vao);
-    glGenBuffers(1, &vbo);
-    
-    this->position = position;
-    this->rotation = rotation;
-    this->scale = scale;
-    
-    makeModelMatrix();
-}
-    
+   
 Model::Model(Obj object, std::string texture_path, ModelProps props)
 {
     createVertexBuffer(object);
@@ -150,4 +120,9 @@ void Model::render(const GLuint &shaderID)
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(2);
+}
+
+glm::vec3 Model::getPosition()
+{
+    return this->position;
 }

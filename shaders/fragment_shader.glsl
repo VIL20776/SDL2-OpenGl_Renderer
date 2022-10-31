@@ -13,5 +13,5 @@ void main()
 {
     float intensity = dot(norms, normalize(pointLight - pos));
 
-    fragColor = texture(tex, uvs);
+    fragColor = texture(tex, uvs) * intensity;
 }

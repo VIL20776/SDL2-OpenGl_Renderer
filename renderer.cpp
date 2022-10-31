@@ -1,6 +1,7 @@
 #include "renderer.hpp"
 
 #include <fstream>
+#include <glm/geometric.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
@@ -9,6 +10,7 @@
 #include <glm/matrix.hpp>
 #include <sstream>
 #include <string>
+#include <vector>
 
 Renderer::Renderer(int width, int height)
 {
@@ -23,14 +25,16 @@ Renderer::Renderer(int width, int height)
     
     camPosition = {0, 0, 0};
     camRotation = {0, 0, 0};
-    
     makeViewMatrix();
+
+	pointLight = {0, 0, 0};
+
     projectionMatrix = glm::perspective(glm::radians(60.f), (float) width / height, 0.1f, 1000.f);
 }
 
 void Renderer::update()
 {
-	makeViewMatrix();
+	viewMatrix = glm::lookAt(camPosition, target, {0, 1, 0});
 	
 }
 
@@ -141,9 +145,23 @@ int Renderer::loadShaders(const char *vertex_shader_path, const char *fragment_s
 	return 0;
 }
 
-void Renderer::addModel(Model obj)
+void Renderer::addModel(Model obj, bool focus)
 {
 	scene.push_back(obj);
+	if (focus) {
+		target = obj.getPosition();
+		camDistance = glm::length(camPosition - target);
+	}
+}
+
+void Renderer::setCamPosition(float x, float y, float z)
+{
+	camPosition = {x, y, z};
+}
+
+std::vector<float> Renderer::getCamPosition()
+{
+	return {camPosition.x, camPosition.y, camPosition.z};
 }
 
 void Renderer::render()

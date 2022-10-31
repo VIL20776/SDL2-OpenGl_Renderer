@@ -1,3 +1,6 @@
+#include <SDL2/SDL_timer.h>
+#include <cmath>
+#include <vector>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
@@ -9,6 +12,11 @@
 
 #include "renderer.hpp"
 #include "obj.hpp"
+
+void handleUserInput(SDL_Event event)
+{
+    
+}
 
 int main ()
 {
@@ -43,18 +51,25 @@ int main ()
     Renderer rend (width, height);    
     rend.loadShaders("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
     
-    rend.addModel( 
-        Model( Obj ("data/obj/fox.obj"),
-        "data/obj/texture.png",
+    Model fox (
+        Obj ("data/obj/fox.obj"),
+        "data/obj/texture_1.png",
         {
             {0 ,0, -10},        //Position
             {0, 45, 0},          //Rotation
             {0.05, 0.05, 0.05}  //Scale
-        } )
-    );
+        } );
+
+    rend.addModel(fox, true);
     
+    unsigned int oldTime = SDL_GetTicks(), newTime = 0;
+    double deltaTime = 0;
+
     bool running = true;
     while (running) {
+        // Delta time
+        newTime = SDL_GetTicks();
+        deltaTime = (float) (newTime - oldTime) * 0.001f;
         // Handle events
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -63,10 +78,37 @@ int main ()
                     running = false;
                     break;
                 case SDL_KEYUP:
+                    //ESC - Quit
                     if (event.key.keysym.sym == SDLK_ESCAPE) {
                         running = false;
                         break;
-                    } 
+                    }
+                    break;
+                case SDL_KEYDOWN:
+                    if (event.key.keysym.sym == SDLK_w) {
+                        std::vector<float> pos = rend.getCamPosition();
+                        if (pos.at(1) < 5)
+                            rend.setCamPosition(pos.at(0), pos.at(1) + 5*deltaTime, pos.at(2));
+                        break;
+                    }
+                    if (event.key.keysym.sym == SDLK_s) {
+                        std::vector<float> pos = rend.getCamPosition();
+                        if (pos.at(1) > -5)
+                            rend.setCamPosition(pos.at(0), pos.at(1) - 5*deltaTime, pos.at(2));
+                        break;
+                    }
+                    if (event.key.keysym.sym == SDLK_q) {
+                        std::vector<float> pos = rend.getCamPosition();
+                        if (pos.at(2) < 5)
+                            rend.setCamPosition(pos.at(0), pos.at(1), pos.at(2) + 5*deltaTime);
+                        break;
+                    }
+                    if (event.key.keysym.sym == SDLK_e) {
+                        std::vector<float> pos = rend.getCamPosition();
+                        if (pos.at(2) > -5)
+                            rend.setCamPosition(pos.at(0), pos.at(1), pos.at(2) - 5*deltaTime);
+                        break;
+                    }
                     break;
             }
         }
@@ -78,6 +120,8 @@ int main ()
         rend.render();
         
         SDL_GL_SwapWindow(window);
+
+        oldTime = newTime;
     }    
     
     SDL_GL_DeleteContext(glContext);

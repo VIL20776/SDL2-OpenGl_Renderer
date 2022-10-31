@@ -20,13 +20,12 @@ struct ModelProps{
 class Model
 {
     public:
-    Model (std::vector<GLfloat> data);
-    
-    Model (std::vector<GLfloat> data, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
     
     Model (Obj object, string, ModelProps props = {});
     
     void render (const GLuint &shaderID); 
+
+    glm::vec3 getPosition ();
     
     private:
     GLuint vao; //vertex array
