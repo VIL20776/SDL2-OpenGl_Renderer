@@ -1,4 +1,3 @@
-#include <SDL2/SDL_timer.h>
 #include <cmath>
 #include <vector>
 #define GLEW_STATIC
@@ -7,16 +6,12 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_timer.h>
 
 #include <cstdio>
 
 #include "renderer.hpp"
 #include "obj.hpp"
-
-void handleUserInput(SDL_Event event)
-{
-    
-}
 
 int main ()
 {
@@ -53,12 +48,13 @@ int main ()
     
     Model fox (
         Obj ("data/obj/fox.obj"),
-        "data/obj/texture_1.png",
         {
             {0 ,0, -10},        //Position
             {0, 45, 0},          //Rotation
             {0.05, 0.05, 0.05}  //Scale
         } );
+        
+    fox.loadTexture("data/obj/texture.png");
 
     rend.addModel(fox, true);
     

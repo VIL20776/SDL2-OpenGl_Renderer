@@ -1,8 +1,8 @@
 #include "model.hpp"
+#include <cstddef>
 
-#include <SOIL/SOIL.h>
-// #define STB_IMAGE_IMPLEMENTATION
-// #include <stb/stb_image.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 #include <cstdio>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
@@ -11,7 +11,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/matrix.hpp>
    
-Model::Model(Obj object, std::string texture_path, ModelProps props)
+Model::Model(Obj object, ModelProps props)
 {
     createVertexBuffer(object);
     
@@ -19,15 +19,29 @@ Model::Model(Obj object, std::string texture_path, ModelProps props)
     rotation = props.rotation;
     scale = props.scale;
     
-    textureData = SOIL_load_image(texture_path.c_str(), &t_width, &t_height, 0, SOIL_LOAD_AUTO);
-    // textureData = stbi_load(texture_path.c_str(), &t_width, &t_height, &channels, 3);
-    if (textureData == nullptr)
-    {
-    	std::printf("Image failed to load SOIL Error: %s\n", SOIL_last_result());
-    }
-    glGenTextures(1, &texture);
+    texture = 0;
     
     makeModelMatrix();
+}
+    
+void Model::loadTexture(const char *texture_path)
+{
+	// Generate texture
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glActiveTexture(GL_TEXTURE0);
+    
+    // Load texture from image
+    int width, height;
+	stbi_set_flip_vertically_on_load(true);
+    unsigned char * textureData = stbi_load(texture_path, &width, &height, 0, STBI_rgb);
+    if (textureData == nullptr)
+    	std::printf("Failed to load texture");
+    
+    // Generate texture
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
+    glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(textureData);
 }
     
 void Model::createVertexBuffer(Obj &object)
@@ -37,7 +51,7 @@ void Model::createVertexBuffer(Obj &object)
 	for (auto &face : object.getFaces()) {
 		polyCount += 1;
 		bool extraPoly = false;
-		for (char i = 0; i < face.size(); i++) {
+		for (size_t i = 0; i < face.size(); i++) {
 			if (i == 3 && !extraPoly) {
 				extraPoly = true;
 				polyCount += 1;
@@ -108,12 +122,6 @@ void Model::render(const GLuint &shaderID)
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (5 * sizeof(float)));
     glEnableVertexAttribArray(2);       
     
-    // Texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, t_width, t_height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
-    
-    glGenerateMipmap(GL_TEXTURE_2D);
     
     glDrawArrays(GL_TRIANGLES, 0, polyCount * 3);
         

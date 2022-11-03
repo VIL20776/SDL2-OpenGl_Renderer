@@ -21,7 +21,9 @@ class Model
 {
     public:
     
-    Model (Obj object, string, ModelProps props = {});
+    Model (Obj object, ModelProps props = {});
+    
+    void loadTexture(const char *texture_path);
     
     void render (const GLuint &shaderID); 
 
@@ -32,8 +34,6 @@ class Model
     GLuint vbo; //vertex buffer
     std::vector<GLfloat> data;
     
-    int t_width, t_height,channels;
-    unsigned char* textureData;
     GLuint texture;
     
     glm::vec3 position;
