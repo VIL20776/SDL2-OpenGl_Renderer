@@ -8,6 +8,7 @@
 #include <glm/fwd.hpp>
 //C++ libs
 #include <vector>
+#include <ctime>
 
 // local libs
 #include "model.hpp"
@@ -40,6 +41,8 @@ class Renderer
     glm::mat4 viewMatrix;
 
     glm::vec3 pointLight;
+
+    std::clock_t startupTime;
 
     glm::vec3 target;
     glm::vec3 angle;

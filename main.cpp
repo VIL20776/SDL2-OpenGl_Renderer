@@ -44,7 +44,9 @@ int main ()
     
     // Initialize renderer
     Renderer rend (width, height);    
-    rend.loadShaders("shaders/vertex_shader.glsl", "shaders/fragment_shader.glsl");
+    rend.loadShaders(
+        "shaders/vertex_shader.glsl",
+        "shaders/glow_shader.glsl");
     
     Model fox (
         Obj ("data/obj/fox.obj"),
