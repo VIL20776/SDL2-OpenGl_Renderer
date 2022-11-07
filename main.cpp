@@ -77,10 +77,8 @@ int main ()
                     break;
                 case SDL_KEYUP:
                     //ESC - Quit
-                    if (event.key.keysym.sym == SDLK_ESCAPE) {
+                    if (event.key.keysym.sym == SDLK_ESCAPE)
                         running = false;
-                        break;
-                    }
                     break;
                 case SDL_KEYDOWN:
                     if (event.key.keysym.sym == SDLK_w) {
