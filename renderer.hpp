@@ -1,6 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 //OpenGL libs
+#include <memory>
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GL/gl.h>
@@ -18,7 +19,7 @@ class Renderer
 {
     public:
     Renderer (int width, int height);
-    void update (Scene &scene);
+    void update (std::shared_ptr<Scene> scene);
     void render ();
     
     private:

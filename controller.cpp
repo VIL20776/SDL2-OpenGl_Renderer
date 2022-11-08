@@ -2,8 +2,9 @@
 #include "scene.hpp"
 #include <SDL2/SDL_keycode.h>
 #include <glm/fwd.hpp>
+#include <memory>
 
-Controller::Controller (Scene &scene)
+Controller::Controller (std::shared_ptr<Scene> &scene)
 {
     this->scene = scene;
     
@@ -12,6 +13,7 @@ Controller::Controller (Scene &scene)
 int Controller::handleEvents(float deltaTime)
 {
         // Handle events
+        this->deltaTime = deltaTime;
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
@@ -42,29 +44,29 @@ void Controller::keyDownEvent (SDL_Keycode key)
 {
     if (key == SDLK_w)
     {
-        glm::vec3 prevPos = scene.shareCamera()->getPosition();
-        scene.shareCamera()->setPosition({prevPos.x, prevPos.y + 5*deltaTime, prevPos.z });
+        glm::vec3 prevPos = scene->shareCamera()->getPosition();
+        scene->shareCamera()->setPosition({prevPos.x, prevPos.y + 5*deltaTime, prevPos.z });
     }    
     if (key == SDLK_s)
     {
-        glm::vec3 prevPos = scene.shareCamera()->getPosition();
-        scene.shareCamera()->setPosition({prevPos.x, prevPos.y - 5*deltaTime, prevPos.z });
+        glm::vec3 prevPos = scene->shareCamera()->getPosition();
+        scene->shareCamera()->setPosition({prevPos.x, prevPos.y - 5*deltaTime, prevPos.z });
     }    
     if (key == SDLK_q)
     {
-        glm::vec3 prevPos = scene.shareCamera()->getPosition();
-        scene.shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z + 5*deltaTime});
+        glm::vec3 prevPos = scene->shareCamera()->getPosition();
+        scene->shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z + 5*deltaTime});
     }    
     if (key == SDLK_e)
     {
-        glm::vec3 prevPos = scene.shareCamera()->getPosition();
-        scene.shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z - 5*deltaTime});
+        glm::vec3 prevPos = scene->shareCamera()->getPosition();
+        scene->shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z - 5*deltaTime});
     }
     if (key == SDLK_2)
     {
-        scene.useShader(1);
+        scene->useShader(1);
     }
     if (key == SDLK_3) {
-        scene.useShader(2);
+        scene->useShader(2);
     }
 }

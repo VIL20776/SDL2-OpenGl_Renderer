@@ -9,6 +9,7 @@
 #include <glm/fwd.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/matrix.hpp>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -27,11 +28,11 @@ Renderer::Renderer(int width, int height)
 	startupTime = std::clock();
 }
 
-void Renderer::update(Scene &scene)
+void Renderer::update(std::shared_ptr<Scene> scene)
 {
-	viewMatrix = scene.shareCamera()->createViewMatrix();
-	activeShader = scene.getActiveShader();
-	models = scene.getSceneModels();
+	viewMatrix = scene->shareCamera()->createViewMatrix();
+	activeShader = scene->getActiveShader();
+	models = scene->getSceneModels();
 }
 
 void Renderer::render()

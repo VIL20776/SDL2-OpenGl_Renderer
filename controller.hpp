@@ -6,17 +6,18 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
+#include <memory>
 
 const int STOP = 1;
 
 class Controller
 {
     public:
-    Controller (Scene &scene);
+    Controller (std::shared_ptr<Scene> &scene);
     int handleEvents (float deltaTime);
 
     private:
-    Scene scene;
+    std::shared_ptr<Scene> scene;
     float deltaTime;
 
     void keyUpEvent (SDL_Keycode key);

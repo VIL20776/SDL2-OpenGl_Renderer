@@ -5,16 +5,15 @@
 
 Camera::Camera(glm::vec3 position, glm::vec3 rotation)
 {
-    position = {0, 0, 0};
-    rotation = {0, 0, 0};
+    this->position = position;
+    this->rotation = rotation;
 
-    maxDistance = 5;
-    minDistance = -5;
+    target = {0, 0, 0};
 }
 
 glm::mat4 Camera::createViewMatrix()
 {
-    if (target == glm::vec3(0,0,0)) {
+    if (target != glm::vec3(0,0,0)) {
         return glm::lookAt(position, target, {0, 1, 0});
     }
     
@@ -37,13 +36,15 @@ glm::mat4 Camera::createViewMatrix()
 void Camera::setTarget(const glm::vec3 target)
 {
     this->target = target;
-    this->targetDistance = (target - position).length();
+    this->targetDistance = glm::length(target - position);
+    minDistance = targetDistance - 5;
+    maxDistance = targetDistance + 5;
 }
     
 void Camera::setPosition(const glm::vec3 position)
 {
     //Check distance
-    float targetDistance = (target - position).length();
+    float targetDistance = glm::length(target - position);
     if (targetDistance < minDistance || targetDistance > maxDistance) 
         return;
         

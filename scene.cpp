@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+static int count = 0;
+
 Scene::Scene()
 {
     models = {};
@@ -12,6 +14,7 @@ Scene::Scene()
         glm::vec3(0,0,0)
     );
     activeShader = 0;
+    count++;
 }
 
 std::shared_ptr<Camera> Scene::shareCamera()

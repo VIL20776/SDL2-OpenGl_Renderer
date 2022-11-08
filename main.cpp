@@ -1,5 +1,6 @@
 #include "scene.hpp"
 #include <cmath>
+#include <memory>
 #include <vector>
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -59,12 +60,12 @@ int main ()
         "shaders/vertex_shader.glsl",
         "shaders/glow_shader.glsl");
         
-    Scene scene {};
-    scene.addShader(baseShader);
-    scene.addShader(toonShader);
-    scene.addShader(glowShader);
+    std::shared_ptr<Scene> scene (new Scene {});
+    scene->addShader(baseShader);
+    scene->addShader(toonShader);
+    scene->addShader(glowShader);
     
-    scene.useShader(0);
+    scene->useShader(0);
 
     Model fox (
         Obj ("data/obj/fox.obj"),
@@ -76,7 +77,7 @@ int main ()
         
     fox.loadTexture("data/obj/texture.png");
         
-    scene.addModel(fox, true);
+    scene->addModel(fox, true);
     
     Controller ctrl {scene};
     
