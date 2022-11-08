@@ -9,7 +9,7 @@
 class ShaderFactory
 {
     public:
-    static void createShader (const char *vertex_shader_path, const char *fragment_shader_path);
+    static GLuint createShader (const char *vertex_shader_path, const char *fragment_shader_path);
 };
 
 #endif

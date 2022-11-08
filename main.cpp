@@ -1,3 +1,4 @@
+#include "scene.hpp"
 #include <cmath>
 #include <vector>
 #define GLEW_STATIC
@@ -10,7 +11,9 @@
 
 #include <cstdio>
 
+#include "shader.hpp"
 #include "renderer.hpp"
+#include "controller.hpp"
 #include "obj.hpp"
 
 int main ()
@@ -43,11 +46,26 @@ int main ()
     }
     
     // Initialize renderer
-    Renderer rend (width, height);    
-    rend.loadShaders(
+    Renderer rend (width, height);  
+    
+    // Create Shaders 
+    GLuint baseShader = ShaderFactory::createShader(
+        "shaders/vertex_shader.glsl",
+        "shaders/fragment_shader.glsl");
+    GLuint toonShader = ShaderFactory::createShader(
+        "shaders/vertex_shader.glsl",
+        "shaders/toon_shader.glsl");
+    GLuint glowShader = ShaderFactory::createShader(
         "shaders/vertex_shader.glsl",
         "shaders/glow_shader.glsl");
+        
+    Scene scene {};
+    scene.addShader(baseShader);
+    scene.addShader(toonShader);
+    scene.addShader(glowShader);
     
+    scene.useShader(0);
+
     Model fox (
         Obj ("data/obj/fox.obj"),
         {
@@ -57,8 +75,10 @@ int main ()
         } );
         
     fox.loadTexture("data/obj/texture.png");
-
-    rend.addModel(fox, true);
+        
+    scene.addModel(fox, true);
+    
+    Controller ctrl {scene};
     
     unsigned int oldTime = SDL_GetTicks(), newTime = 0;
     double deltaTime = 0;
@@ -67,52 +87,15 @@ int main ()
     while (running) {
         // Delta time
         newTime = SDL_GetTicks();
-        deltaTime = (float) (newTime - oldTime) * 0.001f;
-        // Handle events
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    running = false;
-                    break;
-                case SDL_KEYUP:
-                    //ESC - Quit
-                    if (event.key.keysym.sym == SDLK_ESCAPE)
-                        running = false;
-                    break;
-                case SDL_KEYDOWN:
-                    if (event.key.keysym.sym == SDLK_w) {
-                        std::vector<float> pos = rend.getCamPosition();
-                        if (pos.at(1) < 5)
-                            rend.setCamPosition(pos.at(0), pos.at(1) + 5*deltaTime, pos.at(2));
-                        break;
-                    }
-                    if (event.key.keysym.sym == SDLK_s) {
-                        std::vector<float> pos = rend.getCamPosition();
-                        if (pos.at(1) > -5)
-                            rend.setCamPosition(pos.at(0), pos.at(1) - 5*deltaTime, pos.at(2));
-                        break;
-                    }
-                    if (event.key.keysym.sym == SDLK_q) {
-                        std::vector<float> pos = rend.getCamPosition();
-                        if (pos.at(2) < 5)
-                            rend.setCamPosition(pos.at(0), pos.at(1), pos.at(2) + 5*deltaTime);
-                        break;
-                    }
-                    if (event.key.keysym.sym == SDLK_e) {
-                        std::vector<float> pos = rend.getCamPosition();
-                        if (pos.at(2) > -5)
-                            rend.setCamPosition(pos.at(0), pos.at(1), pos.at(2) - 5*deltaTime);
-                        break;
-                    }
-                    break;
-            }
-        }
+        deltaTime = float(newTime - oldTime) * 0.001f;
+        //Events
+        if (ctrl.handleEvents(deltaTime) == STOP)
+            running = false;
         //update frame
         SDL_GL_SetSwapInterval(1);
         
         /* Render */
-        rend.update();
+        rend.update(scene);
         rend.render();
         
         SDL_GL_SwapWindow(window);

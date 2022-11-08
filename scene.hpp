@@ -19,14 +19,14 @@ class Scene
     void addModel (Model model, bool target = false);
     void addShader (GLuint shader);
     void useShader (int i);
-    std::vector<Model>& getSceneModels ();
-    GLuint& getActiveShader ();
+    std::vector<Model> getSceneModels ();
+    GLuint getActiveShader ();
 
     private:
     std::vector<Model> models;
     std::vector<GLuint> shaders;
-    std::shared_ptr<Camera> *camera;
-    GLuint& activeShader;
+    std::shared_ptr<Camera> camera;
+    GLuint activeShader;
 };
 
 #endif

@@ -7,17 +7,20 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_keycode.h>
 
-class SceneController
+const int STOP = 1;
+
+class Controller
 {
     public:
-    SceneController (Scene scene);
-    void HandleEvents (SDL_Event event);
+    Controller (Scene &scene);
+    int handleEvents (float deltaTime);
 
     private:
     Scene scene;
+    float deltaTime;
 
-    void KeyUpEvent (SDL_KeyCode key);
-    void KeyDownEvent (SDL_KeyCode key);
+    void keyUpEvent (SDL_Keycode key);
+    void keyDownEvent (SDL_Keycode key);
 };
 
 #endif
