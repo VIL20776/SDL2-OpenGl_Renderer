@@ -63,10 +63,11 @@ void Controller::keyDownEvent (SDL_Keycode key)
         scene->shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z - 5*deltaTime});
     }
     if (key == SDLK_2)
-    {
         scene->useShader(1);
-    }
-    if (key == SDLK_3) {
+    
+    if (key == SDLK_3) 
         scene->useShader(2);
-    }
+    
+    if (key == SDLK_4)
+        scene->useShader(3);
 }

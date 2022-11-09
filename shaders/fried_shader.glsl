@@ -12,16 +12,9 @@ void main()
 {
     float intensity = dot(norms, normalize(pointLight - pos));
 
-    if (intensity < 0.15)
-        intensity = 0.1;
-    else if (intensity < 0.5)
-        intensity = 0.4;
-    else if (intensity < 0.75)
-        intensity = 0.7;
-    else if (intensity < 0.95)
-        intensity = 0.9;
-    else 
-        intensity = 1;
-
     fragColor = texture(tex, uvs) * intensity;
+    
+    fragColor.b = (fragColor.b <= 0.5) ? 0.3: 1;
+    fragColor.g = (fragColor.g <= 0.5) ? 0.3: 1;
+    fragColor.r = (fragColor.r <= 0.5) ? 0.3: 1;   
 }

@@ -13,7 +13,7 @@ void main()
 {
     float intensity = dot(norms, normalize(pointLight - pos));
 
-    intensity = intensity + sin(time * 0.3);
+    intensity = intensity + sin(time * 0.05);
 
     if (intensity < 0)
         intensity = 0;

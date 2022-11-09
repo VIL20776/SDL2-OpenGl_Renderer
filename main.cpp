@@ -51,7 +51,7 @@ int main ()
     
     // Create Shaders 
     GLuint baseShader = ShaderFactory::createShader(
-        "shaders/vertex_shader.glsl",
+        "shaders/wave_shader.glsl",
         "shaders/fragment_shader.glsl");
     GLuint toonShader = ShaderFactory::createShader(
         "shaders/vertex_shader.glsl",
@@ -59,14 +59,19 @@ int main ()
     GLuint glowShader = ShaderFactory::createShader(
         "shaders/vertex_shader.glsl",
         "shaders/glow_shader.glsl");
+    GLuint friedShader = ShaderFactory::createShader(
+        "shaders/vertex_shader.glsl",
+        "shaders/fried_shader.glsl");   
         
     std::shared_ptr<Scene> scene (new Scene {});
     scene->addShader(baseShader);
     scene->addShader(toonShader);
     scene->addShader(glowShader);
+    scene->addShader(friedShader);
     
     scene->useShader(0);
 
+    //Model
     Model fox (
         Obj ("data/obj/fox.obj"),
         {
@@ -79,6 +84,7 @@ int main ()
         
     scene->addModel(fox, true);
     
+    // Controller
     Controller ctrl {scene};
     
     unsigned int oldTime = SDL_GetTicks(), newTime = 0;
