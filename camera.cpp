@@ -1,6 +1,7 @@
 #include "camera.hpp"
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/fwd.hpp>
+#include <glm/geometric.hpp>
 #include <glm/gtx/transform.hpp>
 
 Camera::Camera(glm::vec3 position, glm::vec3 rotation)
@@ -53,5 +54,10 @@ void Camera::setPosition(const glm::vec3 position)
 }
 
 glm::vec3 Camera::getPosition() { return position;}
+
+glm::vec3 Camera::getForwardv()
+{
+    return glm::normalize(position - glm::vec3(0, 1, 0));
+}
 
 

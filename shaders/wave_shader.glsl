@@ -16,8 +16,8 @@ out vec3 pos;
 
 void main()
 {
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position.x, position.y + sin(time), position.z, 1.0);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position.x, position.y + (normals.y * sin(time * 0.3)), position.z, 1.0);
     uvs = texcoords;
     norms = normals;
-    pos = (modelMatrix * vec4(position.x, position.y + sin(time), position.z, 1.0)).xyz;
+    pos = (modelMatrix * vec4(position.x, position.y + (normals.y * sin(time * 0.3)), position.z, 1.0)).xyz;
 }

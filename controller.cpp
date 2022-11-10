@@ -62,6 +62,9 @@ void Controller::keyDownEvent (SDL_Keycode key)
         glm::vec3 prevPos = scene->shareCamera()->getPosition();
         scene->shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z - 5*deltaTime});
     }
+    if (key == SDLK_1)
+        scene->useShader(0);
+
     if (key == SDLK_2)
         scene->useShader(1);
     
@@ -70,4 +73,7 @@ void Controller::keyDownEvent (SDL_Keycode key)
     
     if (key == SDLK_4)
         scene->useShader(3);
+        
+    if (key == SDLK_5)
+        scene->useShader(4);
 }

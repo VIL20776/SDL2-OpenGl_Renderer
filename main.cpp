@@ -46,12 +46,10 @@ int main ()
         return -1;
     }
     
-    // Initialize renderer
-    Renderer rend (width, height);  
     
     // Create Shaders 
     GLuint baseShader = ShaderFactory::createShader(
-        "shaders/wave_shader.glsl",
+        "shaders/vertex_shader.glsl",
         "shaders/fragment_shader.glsl");
     GLuint toonShader = ShaderFactory::createShader(
         "shaders/vertex_shader.glsl",
@@ -62,12 +60,16 @@ int main ()
     GLuint friedShader = ShaderFactory::createShader(
         "shaders/vertex_shader.glsl",
         "shaders/fried_shader.glsl");   
+    GLuint wave_bgShader = ShaderFactory::createShader(
+        "shaders/wave_shader.glsl",
+        "shaders/bg_shader.glsl");
         
     std::shared_ptr<Scene> scene (new Scene {});
     scene->addShader(baseShader);
     scene->addShader(toonShader);
     scene->addShader(glowShader);
     scene->addShader(friedShader);
+    scene->addShader(wave_bgShader);
     
     scene->useShader(0);
 
@@ -84,6 +86,9 @@ int main ()
         
     scene->addModel(fox, true);
     
+    // Initialize renderer
+    Renderer rend (scene, width, height);  
+
     // Controller
     Controller ctrl {scene};
     
@@ -102,7 +107,7 @@ int main ()
         SDL_GL_SetSwapInterval(1);
         
         /* Render */
-        rend.update(scene);
+        rend.update();
         rend.render();
         
         SDL_GL_SwapWindow(window);

@@ -14,10 +14,11 @@
 #include <string>
 #include <vector>
 
-Renderer::Renderer(int width, int height)
+Renderer::Renderer(std::shared_ptr<Scene> scene, int width, int height)
 {
     this->width = width;
     this->height = height;
+	this->scene = scene;
     
     glEnable(GL_DEPTH_TEST);
     glViewport(0, 0, width, height);
@@ -28,7 +29,7 @@ Renderer::Renderer(int width, int height)
 	startupTime = std::clock();
 }
 
-void Renderer::update(std::shared_ptr<Scene> scene)
+void Renderer::update()
 {
 	viewMatrix = scene->shareCamera()->createViewMatrix();
 	activeShader = scene->getActiveShader();
@@ -50,6 +51,7 @@ void Renderer::render()
 	float time = 1000 * float(std::clock() - startupTime) / CLOCKS_PER_SEC;
 	glUniform1f(glGetUniformLocation(activeShader, "time"), time);
 	glUniform3fv(glGetUniformLocation(activeShader, "pointLight"), 1, glm::value_ptr(pointLight));
+	glUniform3fv(glGetUniformLocation(activeShader, "forward"), 1, glm::value_ptr(scene->shareCamera()->getForwardv()));
 	
 	// General Texture Setings
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

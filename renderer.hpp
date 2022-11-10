@@ -18,12 +18,13 @@
 class Renderer
 {
     public:
-    Renderer (int width, int height);
-    void update (std::shared_ptr<Scene> scene);
+    Renderer (std::shared_ptr<Scene> scene, int width, int height);
+    void update ();
     void render ();
     
     private:
     GLint width, height;
+    std::shared_ptr<Scene> scene;
 
     glm::mat4 viewMatrix;
     glm::mat4 projectionMatrix;
@@ -33,7 +34,7 @@ class Renderer
     
     glm::vec3 pointLight;
     std::clock_t startupTime;
-
+    
 };
 
 #endif

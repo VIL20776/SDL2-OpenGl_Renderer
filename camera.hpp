@@ -9,6 +9,7 @@ class Camera
     void setTarget (glm::vec3 target);
     void setPosition (glm::vec3 position);
     glm::vec3 getPosition();
+    glm::vec3 getForwardv();
 
     private:
     glm::vec3 position;
