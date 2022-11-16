@@ -15,18 +15,24 @@ class Scene
 {
     public:
     Scene ();
-    std::shared_ptr<Camera> shareCamera();
+    std::shared_ptr<Camera> shareCamera ();
     void addModel (Model model, bool target = false);
     void addShader (GLuint shader);
     void useShader (int i);
+    void nextModel ();
+    void prevModel ();
     std::vector<Model> getSceneModels ();
     GLuint getActiveShader ();
+    Model getActiveModel ();
 
     private:
     std::vector<Model> models;
     std::vector<GLuint> shaders;
     std::shared_ptr<Camera> camera;
-    GLuint activeShader;
+    GLuint *activeShader;
+    Model *activeModel;
+    
+    int modelIndex;
 };
 
 #endif

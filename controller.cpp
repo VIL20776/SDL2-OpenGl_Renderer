@@ -35,11 +35,6 @@ int Controller::handleEvents(float deltaTime)
     return 0;
 }
 
-void Controller::keyUpEvent (SDL_Keycode key)
-{
-    
-}
-
 void Controller::keyDownEvent (SDL_Keycode key)
 {
     if (key == SDLK_w)
@@ -62,6 +57,18 @@ void Controller::keyDownEvent (SDL_Keycode key)
         glm::vec3 prevPos = scene->shareCamera()->getPosition();
         scene->shareCamera()->setPosition({prevPos.x, prevPos.y, prevPos.z - 5*deltaTime});
     }
+    if (key == SDLK_a)
+    {
+        float prevAngle = scene->shareCamera()->getAngle();
+        scene->shareCamera()->setPosition(prevAngle - 5*deltaTime);
+        
+    }
+    if (key == SDLK_r)
+        scene->nextModel();
+
+    if (key == SDLK_f)
+        scene->prevModel();
+
     if (key == SDLK_1)
         scene->useShader(0);
 

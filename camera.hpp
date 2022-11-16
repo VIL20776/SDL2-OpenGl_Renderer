@@ -8,7 +8,9 @@ class Camera
     glm::mat4 createViewMatrix();
     void setTarget (glm::vec3 target);
     void setPosition (glm::vec3 position);
+    void setPosition (float g);
     glm::vec3 getPosition();
+    float getAngle();
     glm::vec3 getForwardv();
 
     private:

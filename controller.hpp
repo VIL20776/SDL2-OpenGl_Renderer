@@ -20,7 +20,6 @@ class Controller
     std::shared_ptr<Scene> scene;
     float deltaTime;
 
-    void keyUpEvent (SDL_Keycode key);
     void keyDownEvent (SDL_Keycode key);
 };
 

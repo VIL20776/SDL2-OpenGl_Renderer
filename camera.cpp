@@ -1,4 +1,5 @@
 #include "camera.hpp"
+#include <cmath>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/fwd.hpp>
 #include <glm/geometric.hpp>
@@ -51,6 +52,15 @@ void Camera::setPosition(const glm::vec3 position)
         
     this->targetDistance = targetDistance;
     this->position = position;
+}
+
+void Camera::setPosition(float g)
+{
+    float radians = glm::radians(g);
+    float x = position.x * std::sin(radians);
+    float z = position.z * std::cos(radians);
+    angle = g;
+    position = {x, position.y, z};
 }
 
 glm::vec3 Camera::getPosition() { return position;}

@@ -44,8 +44,7 @@ int main ()
     if (glewInit() != GLEW_OK) {
         std::fprintf(stderr, "Failed to initialize GLEW.");
         return -1;
-    }
-    
+    } 
     
     // Create Shaders 
     GLuint baseShader = ShaderFactory::createShader(
@@ -73,7 +72,7 @@ int main ()
     
     scene->useShader(0);
 
-    //Model
+    //Models
     Model fox (
         Obj ("data/obj/fox.obj"),
         {
@@ -81,10 +80,46 @@ int main ()
             {0, 45, 0},          //Rotation
             {0.05, 0.05, 0.05}  //Scale
         } );
-        
-    fox.loadTexture("data/obj/texture.png");
+    // Model don (
+    //     Obj ("data/obj/don-flip.obj"),
+    //     {
+    //         {0 ,0, -10},        //Position
+    //         {0, 45, 0},          //Rotation
+    //         {0.5, 0.5, 0.5}  //Scale
+    //     } );    
+    // Model dona (
+    //     Obj ("data/obj/dona-teodora.obj"),
+    //     {
+    //         {0 ,0, -10},        //Position
+    //         {0, 45, 0},          //Rotation
+    //         {0.1, 0.1, 0.1}  //Scale
+    //     } );
+    // Model mario (
+    //     Obj ("data/obj/mario-sculpture.obj"),
+    //     {
+    //         {0 ,0, -10},        //Position
+    //         {0, 45, 0},          //Rotation
+    //         {0.01, 0.01, 0.01}  //Scale
+    //     } );
+    // Model obama (
+    //     Obj ("data/obj/obama-ball.obj"),
+    //     {
+    //         {0 ,0, -10},        //Position
+    //         {0, 45, 0},          //Rotation
+    //         {50, 50, 50}  //Scale
+    //     } );
+
+    fox.loadTexture("data/tex/fox_texture.bmp");
+    // don.loadTexture("data/tex/Don_Flip.bmp");
+    // dona.loadTexture("data/tex/Annaleiva.bmp");
+    // mario.loadTexture("data/tex/marioD.bmp");
+    // obama.loadTexture("data/tex/obama.bmp");
         
     scene->addModel(fox, true);
+    // scene->addModel(don);
+    // scene->addModel(dona);
+    // scene->addModel(mario);
+    // scene->addModel(obama);
     
     // Initialize renderer
     Renderer rend (scene, width, height);  
