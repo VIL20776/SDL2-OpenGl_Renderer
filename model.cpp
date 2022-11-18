@@ -11,30 +11,31 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/matrix.hpp>
    
-Model::Model(Obj object, ModelProps props)
+Model::Model(Obj object, std::string tex_path, ModelProps props)
 {
     createVertexBuffer(object);
     
     position = props.position;
     rotation = props.rotation;
     scale = props.scale;
-    
+	
+	this->tex_path = tex_path;
     texture = 0;
     
     makeModelMatrix();
 }
     
-void Model::loadTexture(const char *texture_path)
+void Model::loadTexture()
 {
 	// Generate texture
     glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
     glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
     
     // Load texture from image
     int width, height;
 	stbi_set_flip_vertically_on_load(true);
-    unsigned char * textureData = stbi_load(texture_path, &width, &height, 0, STBI_rgb);
+    unsigned char * textureData = stbi_load(tex_path.c_str(), &width, &height, 0, STBI_rgb);
     if (textureData == nullptr)
     	std::printf("Failed to load texture");
     
@@ -49,12 +50,12 @@ void Model::createVertexBuffer(Obj &object)
 	std::vector<GLfloat> buffer {};
 	polyCount = 0;
 	for (auto &face : object.getFaces()) {
-		polyCount += 1;
+		polyCount++;
 		bool extraPoly = false;
 		for (size_t i = 0; i < face.size(); i++) {
 			if (i == 3 && !extraPoly) {
 				extraPoly = true;
-				polyCount += 1;
+				polyCount++;
 				i = 0;
 			}
 			
@@ -122,7 +123,6 @@ void Model::render(const GLuint &shaderID)
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*) (5 * sizeof(float)));
     glEnableVertexAttribArray(2);       
     
-    
     glDrawArrays(GL_TRIANGLES, 0, polyCount * 3);
         
     glDisableVertexAttribArray(0);
@@ -130,7 +130,4 @@ void Model::render(const GLuint &shaderID)
     glDisableVertexAttribArray(2);
 }
 
-glm::vec3 Model::getPosition()
-{
-    return this->position;
-}
+glm::vec3 Model::getPosition() { return this->position;}

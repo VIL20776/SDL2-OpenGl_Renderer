@@ -60,8 +60,12 @@ void Controller::keyDownEvent (SDL_Keycode key)
     if (key == SDLK_a)
     {
         float prevAngle = scene->shareCamera()->getAngle();
-        scene->shareCamera()->setPosition(prevAngle - 5*deltaTime);
-        
+        scene->shareCamera()->setPosition(prevAngle + 30*deltaTime);
+    }
+    if (key == SDLK_d)
+    {
+        float prevAngle = scene->shareCamera()->getAngle();
+        scene->shareCamera()->setPosition(prevAngle - 30*deltaTime);
     }
     if (key == SDLK_r)
         scene->nextModel();

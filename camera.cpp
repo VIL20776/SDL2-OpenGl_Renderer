@@ -57,13 +57,15 @@ void Camera::setPosition(const glm::vec3 position)
 void Camera::setPosition(float g)
 {
     float radians = glm::radians(g);
-    float x = position.x * std::sin(radians);
-    float z = position.z * std::cos(radians);
+    float z = targetDistance * std::sin(radians) - targetDistance;
+    float x = targetDistance * std::cos(radians);
     angle = g;
     position = {x, position.y, z};
 }
 
 glm::vec3 Camera::getPosition() { return position;}
+
+float Camera::getAngle() {return angle;}
 
 glm::vec3 Camera::getForwardv()
 {

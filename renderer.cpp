@@ -60,5 +60,6 @@ void Renderer::render()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
 	Model model = scene->getActiveModel();
+	model.loadTexture();
 	model.render(activeShader);
 }

@@ -2,6 +2,7 @@
 #define MODEL_H
 // local libs
 #include "obj.hpp"
+#include <string>
 // OpenGL libs
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -21,8 +22,8 @@ class Model
     };
 
     public:
-    Model (Obj object, ModelProps props = {{},{},{}});
-    void loadTexture(const char *texture_path);
+    Model (Obj object, std::string tex_path, ModelProps props = {{},{},{}});
+    void loadTexture();
     void render (const GLuint &shaderID); 
     glm::vec3 getPosition ();
     
@@ -31,6 +32,7 @@ class Model
     GLuint vbo; //vertex buffer
     std::vector<GLfloat> data;
     
+    std::string tex_path;
     GLuint texture;
     
     glm::vec3 position;

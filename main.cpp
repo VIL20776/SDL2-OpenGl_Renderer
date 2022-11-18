@@ -11,6 +11,7 @@
 #include <SDL2/SDL_timer.h>
 
 #include <cstdio>
+#include <iostream>
 
 #include "shader.hpp"
 #include "renderer.hpp"
@@ -73,53 +74,49 @@ int main ()
     scene->useShader(0);
 
     //Models
-    Model fox (
-        Obj ("data/obj/fox.obj"),
+    std::cout << "Loading models. May take a while...\n";
+    Model fox (Obj ("data/obj/fox.obj"),
+        "data/tex/fox_texture.bmp",
         {
             {0 ,0, -10},        //Position
-            {0, 45, 0},          //Rotation
+            {0, 0, 0},          //Rotation
             {0.05, 0.05, 0.05}  //Scale
         } );
-    // Model don (
-    //     Obj ("data/obj/don-flip.obj"),
-    //     {
-    //         {0 ,0, -10},        //Position
-    //         {0, 45, 0},          //Rotation
-    //         {0.5, 0.5, 0.5}  //Scale
-    //     } );    
-    // Model dona (
-    //     Obj ("data/obj/dona-teodora.obj"),
-    //     {
-    //         {0 ,0, -10},        //Position
-    //         {0, 45, 0},          //Rotation
-    //         {0.1, 0.1, 0.1}  //Scale
-    //     } );
-    // Model mario (
-    //     Obj ("data/obj/mario-sculpture.obj"),
-    //     {
-    //         {0 ,0, -10},        //Position
-    //         {0, 45, 0},          //Rotation
-    //         {0.01, 0.01, 0.01}  //Scale
-    //     } );
-    // Model obama (
-    //     Obj ("data/obj/obama-ball.obj"),
-    //     {
-    //         {0 ,0, -10},        //Position
-    //         {0, 45, 0},          //Rotation
-    //         {50, 50, 50}  //Scale
-    //     } );
-
-    fox.loadTexture("data/tex/fox_texture.bmp");
-    // don.loadTexture("data/tex/Don_Flip.bmp");
-    // dona.loadTexture("data/tex/Annaleiva.bmp");
-    // mario.loadTexture("data/tex/marioD.bmp");
-    // obama.loadTexture("data/tex/obama.bmp");
+    Model don (Obj ("data/obj/don-flip.obj"),
+        "data/tex/Don_Flip.bmp",
+        {
+            {0 ,0, -10},        //Position
+            {0, 0, 0},          //Rotation
+            {0.5, 0.5, 0.5}  //Scale
+        } );    
+    Model dona (Obj ("data/obj/dona-teodora.obj"),
+        "data/tex/Annaleiva.bmp",
+        {
+            {0 ,0, -10},        //Position
+            {0, 0, 0},          //Rotation
+            {0.1, 0.1, 0.1}  //Scale
+        } );
+    Model mario (Obj ("data/obj/mario-sculpture.obj"),
+        "data/tex/marioD.bmp",
+        {
+            {0 ,0, -10},        //Position
+            {0, 0, 0},          //Rotation
+            {0.01, 0.01, 0.01}  //Scale
+        } );
+    Model obama (Obj ("data/obj/obama-ball.obj"),
+        "data/tex/obama.bmp",
+        {
+            {0 ,0, -10},   //Position
+            {0, 40, 0},    //Rotation
+            {50, 50, 50}   //Scale
+        } );
+    std::cout << "Models loaded.\n";
         
     scene->addModel(fox, true);
-    // scene->addModel(don);
-    // scene->addModel(dona);
-    // scene->addModel(mario);
-    // scene->addModel(obama);
+    scene->addModel(don);
+    scene->addModel(dona);
+    scene->addModel(mario);
+    scene->addModel(obama);
     
     // Initialize renderer
     Renderer rend (scene, width, height);  
